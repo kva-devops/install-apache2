@@ -1,0 +1,17 @@
+---
+- hosts: all
+  become: yes
+  tasks: 
+  - name: Ping all hosts
+    ping:
+    
+  - name: Update servers
+    apt: update_cache=yes
+
+  - name: Install Apache 
+    apt: name=apache2 state=latest
+    notify: Reload apache2
+
+  handlers:
+  - name: Reload apache2
+    service: name=apache2 state=restarted enabled=yes
